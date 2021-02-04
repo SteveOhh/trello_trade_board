@@ -78,7 +78,7 @@ add_attachments <- function(card_id, coffee) {
 ##### ##### ##### ##### 
 ##### Make a card ##### 
 ##### ##### ##### ##### 
-make_coffee_card <- function(coffee, map = FALSE) {
+make_coffee_card <- function(coffee) {
   # Description function
   source("./populate_card_description.R")
   
@@ -93,13 +93,12 @@ make_coffee_card <- function(coffee, map = FALSE) {
   
   description <- populate_card_description(roaster_taste_notes, trade_taste_notes, taste_profile)
   
-  # if(map == TRUE) {gps_coordinates <- coffee$source_gps_string}
   gps_coordinates <- coffee$source_gps_string # not sure how to handle NAs; trying it out
   
   # Card list, name, description, and map coordindates to send with request
   card_details <- list(name = paste0(product_name, " - ", roaster),
                        desc = description, 
-                       coordinates = gps_coordinates, ### this is where the map location goes
+                       coordinates = gps_coordinates,
                        pos = "bottom")
   
   # Create card & store details (so you can call the ID)
@@ -143,5 +142,5 @@ make_coffee_card <- function(coffee, map = FALSE) {
 ### Upload from all rows in the df
 for(i in 1:nrow(coffees)) {
   df <- tibble(coffees[i,])
-  make_coffee_card(df, map = TRUE)
+  make_coffee_card(df)
 }
